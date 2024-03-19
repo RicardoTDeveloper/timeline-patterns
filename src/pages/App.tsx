@@ -1,11 +1,12 @@
-import TransactionDetails from "@/components/TransactionDetails";
 import {
   IconChevronRight,
   IconChevronUp,
   IconExclamationTriangle,
   IconShoppingBag,
 } from "@/components/icons";
+import { TransactionDetails } from "@/components/TransactionDetails";
 
+//TODO: Criar duas classes uma Lancançamentos e suas variantes e outra Detalhes e suas variantes
 export default function App() {
   const filters = [
     "fatura",
@@ -235,7 +236,14 @@ export default function App() {
             </div>
           </div>
           <div>
-            <TransactionDetails />
+            <TransactionDetails.Root>
+              <TransactionDetails.Header />
+              <TransactionDetails.Tags />
+              <TransactionDetails.Referred />
+              <TransactionDetails.Buttons />
+              <TransactionDetails.History />
+              <TransactionDetails.Guidelines />
+            </TransactionDetails.Root>
           </div>
         </div>
       </div>
