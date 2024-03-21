@@ -4,11 +4,13 @@ import TransactionsCritical from "@/components/TransactionsCritical";
 import TransactionTime from "@/components/TransactionTime";
 import Body from "@/layout/Body";
 import Header from "@/layout/Header";
+import HeaderCBWeb from "@/layout/HeaderCBWeb";
 
 //TODO: Criar duas classes uma Lancançamentos e suas variantes e outra Detalhes e suas variantes
 export default function App() {
   return (
     <>
+      <HeaderCBWeb />
       <div className=" container bg-zinc-50 pt-20">
         <Header />
 
