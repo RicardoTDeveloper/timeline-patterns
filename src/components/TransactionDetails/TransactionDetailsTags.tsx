@@ -1,13 +1,16 @@
+import { Tags } from "@/services/Tags";
+
 export function TransactionDetailsTags() {
+  const instance = new Tags("Confirmado", true, "");
+
   return (
     <>
       <div className="my-3 flex">
-        <div className=" mr-3 rounded-sm bg-red-600">
-          <p className="p-1 text-xs text-white ">Bloqueio (referidas)</p>
-        </div>
-        <div className=" rounded-sm border p-1">
-          <p className="text-xs">Cartão virtual</p>
-        </div>
+        {instance.tags.map((tag, index) => (
+          <div key={index} className={`mr-3 rounded-sm ${tag?.[1]}`}>
+            <p className={`p-1 text-xs ${tag?.[2]}`}>{tag?.[0]}</p>
+          </div>
+        ))}
       </div>
     </>
   );
