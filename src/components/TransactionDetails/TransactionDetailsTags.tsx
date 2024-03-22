@@ -1,7 +1,13 @@
+import { useDetails } from "@/context";
 import { Tags } from "@/services/Tags";
 
 export function TransactionDetailsTags() {
-  const instance = new Tags("Confirmado", true, "");
+  const { isTagsVisible } = useDetails();
+  const instance = new Tags("Confirmado", true, "cartaoVirtual");
+
+  if (!isTagsVisible) {
+    return null;
+  }
 
   return (
     <>
