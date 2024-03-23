@@ -1,15 +1,21 @@
 import { useRef } from "react";
 import { IconChevronRight, IconShoppingBag } from "../icons";
 
-const IconTransaction = ({ icon }: { icon: string }) => {
+const IconTransaction = ({ icon }: { icon: string | undefined }) => {
   const Icon = {
     STATEMENT: <IconShoppingBag />,
-  }[icon];
+  }[icon || "STATEMENT"];
 
   return Icon;
 };
 
-export default function TransactionCard({ transaction }) {
+type ITransactionCard = {
+  transaction: ITransaction & {
+    isActiveTransaction: (ref: React.MutableRefObject<null>) => void;
+  };
+};
+
+export default function TransactionCard({ transaction }: ITransactionCard) {
   const ref = useRef(null);
 
   return (

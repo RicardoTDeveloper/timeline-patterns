@@ -1,8 +1,8 @@
-export class Tags {
+export class Tags implements ITags {
   #cardType: string;
   #reason: string;
   #additional: boolean;
-  #cardTypeList: { [key: string]: string } = {
+  #cardTypeList: Record<string, string> = {
     cartaoVirtual: "Cartão Virtual",
     cartaoFisico: "Cartão fisíco",
     carteiraDigital: "Samsung Pay",
@@ -27,7 +27,7 @@ export class Tags {
 
   get tags() {
     const tags = [];
-    tags.push(this.#reasonlist.get(this.#reason));
+    if (this.#reason) tags.push(this.#reasonlist.get(this.#reason));
 
     if (this.#additional) {
       tags.push([

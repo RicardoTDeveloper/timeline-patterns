@@ -6,7 +6,7 @@ enum StatementType {
   OVERDUE = "OVERDUE",
 }
 
-export class Statement extends Transaction {
+export class Statement extends Transaction implements ITransaction {
   #date: string;
   #value: number;
 
