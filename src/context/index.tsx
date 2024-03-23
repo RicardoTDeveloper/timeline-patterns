@@ -1,6 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { ReactNode, createContext, useContext } from "react";
-import { Details } from "@/services/Details";
+import { Details } from "@/services/core/Details";
 
 export const DetailsContext = createContext<Details | null>(null);
 

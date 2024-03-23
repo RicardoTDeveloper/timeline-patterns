@@ -1,6 +1,7 @@
 import moment from "moment";
 import "moment-timezone";
 import "moment/locale/pt-br";
+import { Tags } from "./Tags";
 
 moment.locale("pt-br");
 
@@ -58,7 +59,7 @@ export class Details {
     return true;
   }
 
-  get tags(): boolean {
-    return true;
+  get tags() {
+    return new Tags("Confirmado", true, "cartaoVirtual").tags;
   }
 }
