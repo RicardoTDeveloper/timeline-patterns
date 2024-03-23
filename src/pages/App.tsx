@@ -5,6 +5,7 @@ import TransactionTime from "@/components/TransactionTime";
 import Body from "@/layout/Body";
 import Header from "@/layout/Header";
 import HeaderCBWeb from "@/layout/HeaderCBWeb";
+import { variant } from "@/utils";
 
 //TODO: Criar duas classes uma Lancançamentos e suas variantes e outra Detalhes e suas variantes
 export default function App() {
@@ -16,7 +17,7 @@ export default function App() {
 
         <div className="mt-10 grid grid-cols-2">
           <Body>
-            <TransactionsCritical />
+            {/* <TransactionsCritical /> */}
 
             <div className=" mt-10 rounded-2xl border p-2">
               <h4 className="my-3 text-lg font-medium">Demais lançamentos</h4>
@@ -24,12 +25,46 @@ export default function App() {
               <div>
                 <TransactionTime />
                 {new Array(3).fill(0).map((_, index) => (
-                  <TransactionCard key={index} establishment="Mercado Livre" />
+                  <TransactionCard
+                    key={index}
+                    transaction={variant({
+                      eventId: 38370974,
+                      eventType: "STATEMENT",
+                      eventCategory: "CLOSE",
+                      eventDate: "2024-02-29T03:00:00Z",
+                      dueDate: "2024-03-10",
+                      amountDetails: {
+                        localAmount: null,
+                        currentBalance: 167.1,
+                        previousBalance: 132.92,
+                        credits: 0,
+                        debits: 34.18,
+                      },
+                      cid: "b3f3f673-726f-4902-8b02-ed7530e915e4",
+                    })}
+                  />
                 ))}
 
                 <TransactionTime />
                 {new Array(3).fill(0).map((_, index) => (
-                  <TransactionCard key={index} establishment="Mercado Livre" />
+                  <TransactionCard
+                    key={index}
+                    transaction={variant({
+                      eventId: 38370974,
+                      eventType: "STATEMENT",
+                      eventCategory: "OVERDUE",
+                      eventDate: "2024-02-29T03:00:00Z",
+                      dueDate: "2024-03-10",
+                      amountDetails: {
+                        localAmount: null,
+                        currentBalance: 167.1,
+                        previousBalance: 132.92,
+                        credits: 0,
+                        debits: 34.18,
+                      },
+                      cid: "b3f3f673-726f-4902-8b02-ed7530e915e4",
+                    })}
+                  />
                 ))}
               </div>
             </div>

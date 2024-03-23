@@ -1,5 +1,19 @@
 export class Transaction {
-  constructor() {}
+  typeEvent: string;
+  event: string;
+
+  constructor(data) {
+    this.typeEvent = data?.eventCategory;
+    this.event = data?.eventId;
+  }
+
+  get type(): string {
+    return this.typeEvent;
+  }
+
+  get eventId(): string {
+    return this.event;
+  }
 
   isActiveTransaction(ref: React.RefObject<HTMLElement>): void {
     const transactions: NodeListOf<HTMLElement> =
