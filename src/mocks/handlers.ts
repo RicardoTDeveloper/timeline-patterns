@@ -1,9 +1,11 @@
-import { http, HttpResponse } from "msw";
+import { delay, http, HttpResponse } from "msw";
 
 export const handlers = [
-  http.get("http://localhost:3022/timeline", ({ request }) => {
+  http.get("http://localhost:3022/timeline", async ({ request }) => {
     const url = new URL(request.url);
     const page = url.searchParams.get("page");
+
+    await delay(2500);
 
     if (page === "0") {
       return HttpResponse.json({

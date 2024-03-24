@@ -2,7 +2,7 @@ import { IconBell, IconUser } from "@/components/icons";
 
 export default function HeaderCBWeb() {
   return (
-    <header className="sticky top-0 bg-white">
+    <header className="sticky top-0 z-50 bg-white">
       <section className="flex h-20 items-center justify-between">
         <div className="ml-10 flex items-center">
           <IconUser />
@@ -15,7 +15,7 @@ export default function HeaderCBWeb() {
         </div>
         <div className="mr-10  flex items-center">
           <div className=" mr-3 w-20 rounded-full border border-zinc-300 p-3 ">
-            <p className=" text-center text-sm font-bold text-zinc-600">racf</p>
+            <p className=" text-center text-sm font-bold text-zinc-600">test</p>
           </div>
           <IconBell />
         </div>

@@ -1,8 +1,10 @@
+import moment from "moment";
+
 export class Transaction {
   typeEvent: string;
   event: string;
 
-  constructor(data) {
+  constructor(data?: any) {
     this.typeEvent = data?.eventCategory;
     this.event = data?.eventId;
   }
@@ -13,6 +15,10 @@ export class Transaction {
 
   get eventId(): string {
     return this.event;
+  }
+
+  formatDate(date) {
+    return moment(date, "YYYY-MM-DD").format("DD [de] MMMM [de] YYYY");
   }
 
   isActiveTransaction(ref: React.RefObject<HTMLElement>): void {

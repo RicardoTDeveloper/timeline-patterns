@@ -1,9 +1,10 @@
 import { getTransactions } from "@/services/apis/service.timeline";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
+import _ from "lodash";
 
 export const useFetchTransactions = () => {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ["projects"],
       queryFn: ({ pageParam }) => getTransactions(pageParam, "next"),
@@ -28,8 +29,19 @@ export const useFetchTransactions = () => {
     return <div ref={ref} />;
   };
 
+  const alltransactions = _.chain(data?.pages)
+    .flatMap((item) =>
+      _.flatMap(item.items, (subItem) => [
+        { date: subItem.date },
+        ...subItem.events.map((event) => ({ ...event, date: subItem.date })),
+      ]),
+    )
+    .value();
+
   return {
     InfiniteScrollRef,
-    data,
+    alltransactions,
+    isFetchingNextPage,
+    isFetching,
   };
 };

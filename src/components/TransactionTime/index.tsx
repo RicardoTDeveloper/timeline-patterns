@@ -1,3 +1,5 @@
-export default function TransactionTime() {
-  return <p className="text-xs">04 de abril de 2023</p>;
+import { Transaction } from "@/services/core/transaction/Transaction";
+
+export default function TransactionTime({ date }) {
+  return <p className="text-xs">{new Transaction().formatDate(date)}</p>;
 }

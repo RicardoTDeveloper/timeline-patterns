@@ -28,7 +28,8 @@ export default function TransactionsCritical() {
         </div>
       </div>
       <section className={`${isOpen ? "block" : "hidden"}`}>
-        <div className="none flex flex-col">
+        <div>Test</div>
+        {/* <div className="none flex flex-col">
           <p className="mb-3 text-sm">Bloqueio de cartão (referido)</p>
           <TransactionTime />
           <TransactionCard establishment="Mercado Livre" />
@@ -40,7 +41,7 @@ export default function TransactionsCritical() {
           </p>
           <TransactionTime />
           <TransactionCard establishment="Mercado Livre" />
-        </div>
+        </div> */}
       </section>
     </>
   );
