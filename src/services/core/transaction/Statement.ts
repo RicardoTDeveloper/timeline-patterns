@@ -21,13 +21,6 @@ export class Statement extends Transaction implements ITransaction {
     return `Vence em ${dataFormatada}`;
   }
 
-  convertToReal() {
-    return this.#value.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-  }
-
   get icon() {
     return {
       [StatementType.CLOSE]: "STATEMENT",
@@ -50,7 +43,7 @@ export class Statement extends Transaction implements ITransaction {
   }
 
   get value() {
-    return this.convertToReal();
+    return super.convertToReal(this.#value);
   }
 
   get numberOfInstallments() {

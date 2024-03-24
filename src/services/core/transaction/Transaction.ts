@@ -21,6 +21,13 @@ export class Transaction {
     return moment(date, "YYYY-MM-DD").format("DD [de] MMMM [de] YYYY");
   }
 
+  convertToReal(value: number): string {
+    return value.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+  }
+
   isActiveTransaction(ref: React.RefObject<HTMLElement>): void {
     const transactions: NodeListOf<HTMLElement> =
       document.querySelectorAll(".transaction-only");

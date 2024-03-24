@@ -4,6 +4,7 @@ import { IconChevronRight, IconShoppingBag } from "../icons";
 const IconTransaction = ({ icon }: { icon: string | undefined }) => {
   const Icon = {
     STATEMENT: <IconShoppingBag />,
+    FUEL: <IconShoppingBag />,
   }[icon || "STATEMENT"];
 
   return Icon;

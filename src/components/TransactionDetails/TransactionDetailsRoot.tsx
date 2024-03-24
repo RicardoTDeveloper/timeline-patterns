@@ -1,6 +1,7 @@
 import { DetailsProvider } from "@/context";
 import { ReactNode } from "react";
 
+//TODO: Criar transações lateral no container details ao clicar
 export function TransactionDetailsRoot({ children }: { children: ReactNode }) {
   return (
     <DetailsProvider>
