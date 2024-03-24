@@ -26,8 +26,12 @@ export class Tags implements ITags {
   }
 
   get tags() {
-    const tags = [];
-    if (this.#reason) tags.push(this.#reasonlist.get(this.#reason));
+    const tags: string[][] = [];
+
+    if (this.#reason) {
+      const reasonTag = this.#reasonlist.get(this.#reason);
+      if (reasonTag) tags.push(reasonTag);
+    }
 
     if (this.#additional) {
       tags.push([
