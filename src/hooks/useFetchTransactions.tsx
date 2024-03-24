@@ -1,6 +1,7 @@
 import { getTransactions } from "@/services/apis/service.timeline";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
+import { flatMapEvents } from "@/utils";
 import _ from "lodash";
 
 export const useFetchTransactions = () => {
@@ -29,14 +30,7 @@ export const useFetchTransactions = () => {
     return <div ref={ref} />;
   };
 
-  const alltransactions = _.chain(data?.pages)
-    .flatMap((item) =>
-      _.flatMap(item.items, (subItem) => [
-        { date: subItem.date },
-        ...subItem.events.map((event) => ({ ...event, date: subItem.date })),
-      ]),
-    )
-    .value();
+  const alltransactions = flatMapEvents(data?.pages);
 
   return {
     InfiniteScrollRef,

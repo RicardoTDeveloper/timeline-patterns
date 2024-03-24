@@ -1,14 +1,18 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useFetchCriticalTransactions } from "@/hooks/useFetchCriticalTransactions";
+import { variant } from "@/utils";
 import TransactionCard from "../TransactionCard";
 import TransactionTime from "../TransactionTime";
 import { IconChevronUp, IconExclamationTriangle } from "../icons";
+import _ from "lodash";
 
 export default function TransactionsCritical() {
-  const [isOpen, setIsOpen] = useState(false);
+  const { alltransactionsCritical, count } = useFetchCriticalTransactions();
+  const [isOpen, setIsOpen] = useState(true);
 
-  const handleToggleSection = () => {
+  const handleToggleSection = useCallback(() => {
     setIsOpen(!isOpen);
-  };
+  }, [isOpen]);
 
   return (
     <>
@@ -18,30 +22,37 @@ export default function TransactionsCritical() {
       >
         <div className="flex">
           <IconExclamationTriangle />
+
           <p className="pl-3 text-sm">Lançamentos críticos</p>
         </div>
         <div className="flex">
           <div className="mr-2 rounded-full bg-fuchsia-800 px-2 py-0">
-            <p className=" rounded-full text-white">2</p>
+            <p className=" rounded-full text-white">{count}</p>
           </div>
-          <IconChevronUp />
+          <div className={`${isOpen ? "rotate-180 transform" : ""}`}>
+            <IconChevronUp />
+          </div>
         </div>
       </div>
       <section className={`${isOpen ? "block" : "hidden"}`}>
-        <div>Test</div>
-        {/* <div className="none flex flex-col">
-          <p className="mb-3 text-sm">Bloqueio de cartão (referido)</p>
-          <TransactionTime />
-          <TransactionCard establishment="Mercado Livre" />
-        </div>
+        {_.map(alltransactionsCritical, (item, index) => (
+          <>
+            {Object.keys(item).length === 1 ? (
+              <>
+                <TransactionTime key={index} date={item.date} />
+                <p className="mt-3 text-sm">Bloqueio de cartão (referido)</p>
+              </>
+            ) : (
+              <TransactionCard key={item.cid} transaction={variant(item)} />
+            )}
+          </>
+        ))}
 
-        <div className="flex flex-col">
-          <p className="mb-3 text-sm">
-            Requer confirmação de cliente (suspeito)
+        {!alltransactionsCritical && (
+          <p className="text-center text-sm">
+            Não tem novos lançamentos críticos.
           </p>
-          <TransactionTime />
-          <TransactionCard establishment="Mercado Livre" />
-        </div> */}
+        )}
       </section>
     </>
   );
