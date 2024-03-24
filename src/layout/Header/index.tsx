@@ -10,7 +10,7 @@ const Filter = ({ addFilter, name }) => {
       ref={ref}
       onClick={() => addFilter(ref)}
       key={name}
-      className=" mx-3 flex justify-center rounded-sm border border-rose-500 p-1 hover:cursor-pointer hover:bg-rose-500"
+      className="filter-only mx-3 flex justify-center rounded-sm border border-rose-500 p-1 hover:cursor-pointer hover:bg-rose-500"
     >
       <p className="text-sm text-rose-500 hover:text-white">{name}</p>
     </div>
@@ -27,9 +27,7 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    if (state.length > 0) {
-      setFilters(instance.current.paramsFilters);
-    }
+    setFilters(instance.current.paramsFilters);
   }, [state, setFilters]);
 
   return (

@@ -17,7 +17,7 @@ export class Transaction {
     return this.event;
   }
 
-  formatDate(date) {
+  static formatDate(date) {
     return moment(date, "YYYY-MM-DD").format("DD [de] MMMM [de] YYYY");
   }
 

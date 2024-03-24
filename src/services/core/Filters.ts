@@ -3,7 +3,7 @@ import _ from "lodash";
 
 export class Filters extends Observer implements IFilters {
   filtersList: string[];
-  selectedFilter: string[] = [];
+  selectedFilter: string = "";
 
   constructor() {
     super();
@@ -22,12 +22,16 @@ export class Filters extends Observer implements IFilters {
     ];
   }
 
+  set setFilter(filters: string) {
+    this.selectedFilter = filters;
+  }
+
   get filters() {
     return this.filtersList;
   }
 
   get paramsFilters() {
-    return `&filters=${this.selectedFilter.join(",")}`;
+    return `&filters=${this.selectedFilter}`;
   }
 
   convertToCamelCase(str: string): string {
@@ -35,30 +39,51 @@ export class Filters extends Observer implements IFilters {
     return _.camelCase(cleanedStr);
   }
 
+  isActiveFilter(ref: React.RefObject<HTMLElement>): void {
+    const component = ref.current;
+    if (!component) return;
+    const childElement = component.firstChild as HTMLElement;
+
+    const filters: NodeListOf<HTMLElement> =
+      document.querySelectorAll(".filter-only");
+
+    const removeAllFilters = () => {
+      filters.forEach((filter: HTMLElement) => {
+        const childElement = filter.firstChild as HTMLElement;
+        if (filter?.classList.contains("bg-rose-500")) {
+          filter?.classList.remove("bg-rose-500");
+          childElement.classList.remove("text-white");
+          childElement.classList.add("text-rose-500");
+        }
+      });
+    };
+
+    if (this.selectedFilter === childElement.textContent) {
+      removeAllFilters();
+      return;
+    }
+
+    removeAllFilters();
+
+    if (component) {
+      component?.classList.add("bg-rose-500");
+      childElement.classList.add("text-white");
+    }
+  }
+
   addFilter(ref: React.RefObject<HTMLElement>) {
     const element = ref?.current;
     if (!element) return;
     const childElement = element.firstChild as HTMLElement;
-
-    if (element?.classList.contains("bg-rose-500")) {
-      element?.classList.remove("bg-rose-500");
-      childElement.classList.remove("text-white");
-      childElement.classList.add("text-rose-500");
-    } else {
-      element?.classList.add("bg-rose-500");
-      childElement.classList.add("text-white");
-    }
-
+    this.isActiveFilter(ref);
     const filter = this.convertToCamelCase(childElement.textContent || "");
 
     try {
-      if (this.selectedFilter.includes(filter)) {
-        this.selectedFilter = this.selectedFilter.filter(
-          (item) => item !== filter,
-        );
-      } else {
-        this.selectedFilter = [...this.selectedFilter, filter];
+      if (this.selectedFilter === childElement.textContent) {
+        this.setFilter = "";
+        return;
       }
+      this.setFilter = filter;
     } finally {
       super.notify(this.selectedFilter);
     }

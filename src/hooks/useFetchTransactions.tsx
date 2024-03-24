@@ -14,6 +14,7 @@ export const useFetchTransactions = () => {
       queryKey: ["timeline", filters],
       queryFn: ({ pageParam }) => getTransactions(pageParam, filters),
       initialPageParam: 0,
+      enabled: false,
       getNextPageParam: (lastPage) => {
         if (lastPage.paging.hasNextPage) {
           return lastPage.paging.actual.page + 1;
