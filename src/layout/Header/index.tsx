@@ -1,16 +1,36 @@
+import { useEffect, useRef, useState } from "react";
+import { Filters } from "@/services/core/Filters";
+import { useFilters } from "../../store";
+
+const Filter = ({ addFilter, name }) => {
+  const ref = useRef(null);
+
+  return (
+    <div
+      ref={ref}
+      onClick={() => addFilter(ref)}
+      key={name}
+      className=" mx-3 flex justify-center rounded-sm border border-rose-500 p-1 hover:cursor-pointer hover:bg-rose-500"
+    >
+      <p className="text-sm text-rose-500 hover:text-white">{name}</p>
+    </div>
+  );
+};
+
 export default function Header() {
-  const filters = [
-    "fatura",
-    "confirmados",
-    "limite",
-    "negados",
-    "contestados",
-    "com bloqueio (referidos)",
-    "em análise",
-    "pendentes",
-    "cancelados",
-    "rejeitados",
-  ];
+  const instance = useRef(new Filters());
+  const setFilters = useFilters((state) => state.setFilters);
+  const [state, setState] = useState(instance.current.selectedFilter);
+
+  useEffect(() => {
+    instance.current.subscribe(setState);
+  }, []);
+
+  useEffect(() => {
+    if (state.length > 0) {
+      setFilters(instance.current.paramsFilters);
+    }
+  }, [state, setFilters]);
 
   return (
     <>
@@ -19,13 +39,8 @@ export default function Header() {
       <div className="my-4 flex items-center">
         <h4 className="text-sm">Filtrar exibição:</h4>
 
-        {filters.map((filter, index) => (
-          <div
-            key={index}
-            className=" mx-3 flex justify-center rounded-sm border border-rose-500 p-1 hover:cursor-pointer hover:bg-rose-500"
-          >
-            <p className="text-sm text-rose-500 hover:text-white">{filter}</p>
-          </div>
+        {instance.current.filters.map((filter) => (
+          <Filter addFilter={instance.current.addFilter} name={filter} />
         ))}
       </div>
     </>

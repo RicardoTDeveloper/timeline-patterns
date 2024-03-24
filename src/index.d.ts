@@ -11,3 +11,9 @@ interface ITransaction {
 interface ITags {
   get tags(): (string[] | undefined)[];
 }
+
+interface IFilters {
+  get filters(): string[];
+  get paramsFilters(): string;
+  addFilter(ref: React.RefObject<HTMLElement>): void;
+}

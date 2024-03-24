@@ -2,13 +2,17 @@ import { getTransactions } from "@/services/apis/service.timeline";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import { flatMapEvents } from "@/utils";
+import { useFilters } from "@/store";
 import _ from "lodash";
+import { useEffect } from "react";
 
 export const useFetchTransactions = () => {
+  const filters = useFilters((state) => state.filters);
+
   const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ["projects"],
-      queryFn: ({ pageParam }) => getTransactions(pageParam, "next"),
+      queryKey: ["timeline", filters],
+      queryFn: ({ pageParam }) => getTransactions(pageParam, filters),
       initialPageParam: 0,
       getNextPageParam: (lastPage) => {
         if (lastPage.paging.hasNextPage) {
@@ -17,6 +21,10 @@ export const useFetchTransactions = () => {
         return undefined;
       },
     });
+
+  useEffect(() => {
+    fetchNextPage();
+  }, [filters, fetchNextPage]);
 
   const InfiniteScrollRef = () => {
     const { ref, inView } = useInView({
