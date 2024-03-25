@@ -1,18 +1,35 @@
 import { useCallback, useEffect, useState } from "react";
 import { useFetchCriticalTransactions } from "@/hooks/useFetchCriticalTransactions";
+import { Filters } from "@/services/core/Filters";
 import { variant } from "@/utils";
 import TransactionCard from "../TransactionCard";
 import TransactionTime from "../TransactionTime";
+import { SubTitle } from "../TransactionCard/SubTitle";
 import { IconChevronUp, IconExclamationTriangle } from "../icons";
 import _ from "lodash";
+import { useFilters } from "@/store";
 
 export default function TransactionsCritical() {
+  const filter = useFilters((state) => state.filters);
+  const { isCloseTransactionsCritical, isNotVisibleTransactionsCritical } =
+    new Filters(filter);
+
   const { alltransactionsCritical, count } = useFetchCriticalTransactions();
   const [isOpen, setIsOpen] = useState(true);
+
+  useEffect(() => {
+    if (isCloseTransactionsCritical) {
+      setIsOpen(false);
+    }
+  }, [isCloseTransactionsCritical]);
 
   const handleToggleSection = useCallback(() => {
     setIsOpen(!isOpen);
   }, [isOpen]);
+
+  if (isNotVisibleTransactionsCritical) {
+    return null;
+  }
 
   return (
     <>
@@ -40,7 +57,7 @@ export default function TransactionsCritical() {
             {Object.keys(item).length === 1 ? (
               <>
                 <TransactionTime key={index} date={item.date} />
-                <p className="mt-3 text-sm">Bloqueio de cartão (referido)</p>
+                <SubTitle title="comBloqueio" />
               </>
             ) : (
               <TransactionCard key={item.cid} transaction={variant(item)} />

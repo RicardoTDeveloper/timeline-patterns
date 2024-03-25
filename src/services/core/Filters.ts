@@ -1,12 +1,25 @@
 import { Observer } from "./Observer";
 import _ from "lodash";
 
+enum TransactionTypeTitle {
+  FATURA = "Lançamentos de fatura",
+  CONFIRMADOS = "Lançamentos confirmados",
+  LIMITE = "Lançamentos de limite",
+  NEGADOS = "Lançamentos negados",
+  CONTESTADOS = "Lançamentos contestados",
+}
+
 export class Filters extends Observer implements IFilters {
   filtersList: string[];
   selectedFilter: string = "";
+  title: boolean = true;
+  filter: string | undefined;
+  pendingFilterTitle: "requerConfirmacaoDoCliente" | "comBloqueio" =
+    "comBloqueio";
 
-  constructor() {
+  constructor(filter?: string) {
     super();
+    this.filter = filter;
     this.addFilter = this.addFilter.bind(this);
     this.filtersList = [
       "fatura",
@@ -15,11 +28,16 @@ export class Filters extends Observer implements IFilters {
       "negados",
       "contestados",
       "com bloqueio (referidos)",
-      "em análise",
-      "pendentes",
-      "cancelados",
-      "rejeitados",
+      "requer confirmação do cliente (suspeitos)",
     ];
+  }
+
+  get isTitle() {
+    return this.title;
+  }
+
+  get pendingFilter() {
+    return this.pendingFilterTitle;
   }
 
   set setFilter(filters: string) {
@@ -32,6 +50,37 @@ export class Filters extends Observer implements IFilters {
 
   get paramsFilters() {
     return `&filters=${this.selectedFilter}`;
+  }
+
+  get titleFilter(): string {
+    const current = this.filter?.substring(9);
+
+    const withoutTitle = (current) => {
+      this.pendingFilterTitle = current;
+      this.title = false;
+    };
+
+    if (current)
+      return (
+        TransactionTypeTitle[current.toUpperCase()] ?? withoutTitle(current)
+      );
+
+    return "Demais lançamentos";
+  }
+
+  get isNotVisibleTransactionsCritical() {
+    const current = this.filter?.substring(9);
+    return (
+      current === "requerConfirmacaoDoCliente" || current === "comBloqueio"
+    );
+  }
+
+  get isCloseTransactionsCritical() {
+    const a = this.filter;
+    if (a && a.length > 9) {
+      return true;
+    }
+    return false;
   }
 
   convertToCamelCase(str: string): string {

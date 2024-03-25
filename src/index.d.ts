@@ -15,5 +15,6 @@ interface ITags {
 interface IFilters {
   get filters(): string[];
   get paramsFilters(): string;
+  get titleFilter(): string;
   addFilter(ref: React.RefObject<HTMLElement>): void;
 }
